@@ -1,0 +1,59 @@
+services:
+  web_a:
+    build: ./Web_a
+    networks:
+      - couchdb_network
+    ports:
+      - "5000:5000"
+    depends_on:
+      - couchdb1
+      - couchdb2
+      - couchdb3
+      
+  couchdb1:
+    image: couchdb:latest
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+      - COUCHDB_SECRET=mysecret
+    ports:
+      - "5984:5984"
+    volumes:
+      - couchdb1_data:/opt/couchdb/data
+    networks:
+      - couchdb_network
+
+  couchdb2:
+    image: couchdb:latest
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+      - COUCHDB_SECRET=mysecret
+    ports:
+      - "5985:5984"
+    volumes:
+      - couchdb2_data:/opt/couchdb/data
+    networks:
+      - couchdb_network
+
+  couchdb3:
+    image: couchdb:latest
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+      - COUCHDB_SECRET=mysecret
+    ports:
+      - "5986:5984"
+    volumes:
+      - couchdb3_data:/opt/couchdb/data
+    networks:
+      - couchdb_network
+
+volumes:
+  couchdb1_data:
+  couchdb2_data:
+  couchdb3_data:
+
+networks:
+  couchdb_network:
+    driver: bridge
